@@ -1,0 +1,7 @@
+ Updated 14 days ago
+base2<-read.csv("C:/Users/ALUMNO-D14/Documents/tasadesempleo.csv")
+plot(base2)
+base2ts<-ts(base2,start = 2005,end = 2017,frequency = 1)
+plot(base2ts, ylab="Años",xlab="tasa de desempleo")
+ts.plot(base2ts,col=4:8,xlab="Años", ylab="tasa de desempleo",main="TASA DE DESEMPLEO",lwd=3, type="p") 
+text(x= 2009, y=8, "Crisis")
