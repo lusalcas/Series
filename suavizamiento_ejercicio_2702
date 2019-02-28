@@ -1,0 +1,17 @@
+
+####ejercicio####
+#con la funcion window separar la serie del pib en datos de entrenamiento y datos de prueba (20%)
+#y graficar los modelos dolo en lo que corresponde a los datos de prueba
+pibw<- window(pibts, start=2005, end=2017 )
+plot(pibw)
+mod4<- ses(pibw, alpha=.1, initial = "simple", h=8)# suavizado exponencial simple
+mod5<- ses(pibw, alpha=.3, initial = "simple", h=8)
+mod6<- ses(pibw, alpha=.9, h=8)
+plot(mod4, ylab = "PIB",
+     xlab = "AÑO", main = "PIB", type = "o")
+lines(fitted(mod4), col="brown", type="o")
+lines(fitted(mod5), col="red", type="o")
+lines(fitted(mod6), col="green", type="o")
+legend ("topleft", lty = 1, col = c(1, "blue", "red", "green"),
+        c("data",expression (alpha==0.1),expression (alpha==0.3),
+          expression (alpha==0.9)),pch=1)
