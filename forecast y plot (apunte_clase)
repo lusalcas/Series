@@ -1,0 +1,80 @@
+install.packages("ggplot2") 
+require(ggplot2) 
+install.packages("forecast") 
+require(forecast) 
+install.packages("installr", dependencies = TRUE) 
+library(installr) 
+updateR()
+
+install.packages("installr") 
+library(installr) 
+updateR()
+
+version
+
+net <- read.csv("file:///C:/Users/lusal/Documents/¡¡ACTUARIA!!/8° SEMESTRE/SERIES DE TIEMPO/Datos históricos NFLX.csv") 
+net 
+netts <- ts(net, start = 2018, frequency = 252) 
+plot(netts)
+
+#metodo media
+#meanf (st, h) 
+media <- meanf(netts,20) 
+plot(media)
+
+##########otra ventana
+
+#install.packages("ggplot2") require(ggplot2) install.packages("forecast") require(forecast) install.packages("installr") 
+install.packages("fpp2") 
+require(fpp2)
+
+net <- read.csv("file:///C:/Users/lusal/Documents/¡¡ACTUARIA!!/8° SEMESTRE/SERIES DE TIEMPO/Datos históricos NFLX.csv") 
+net 
+netts <- ts(net, start = 2018, frequency = 252) 
+plot(netts)
+
+#metodo media
+#meanf (st, h) media <- meanf(netts,20) plot(media)
+
+#metodo ingenuo 
+ingenuo<-naive (netts,20) 
+plot(ingenuo) 
+ingenuo
+
+#ingenuo estacional 
+#ingesta <- snaive (st, h) 
+ingestacional <- snaive(netts,252) 
+plot(ingestacional)
+
+#metodo de la deriva rwf (y, h, drift=TRUE) 
+deri <- rwf(netts,20, drift = TRUE) 
+plot(deri)
+
+##window corta la serie de tiempo 
+cerveza2
+ausbeer
+help("ausbeer")
+cerveza2 <- window(ausbeer, start = 1992, end=c(2007 ,4))
+# sin el c da el primer dato de 1992 y co cerveza2 
+#grafica algunospronosticos 
+autoplot(cerveza2) + 
+  autolayer(meanf (cerveza2, h=11), series="media", PI=FALSE)+ 
+  autolayer(naive(cerveza2,h=11),series="ingenuo", PI=FALSE)+ 
+  autolayer(snaive(cerveza2, h=11), series="ingenuo estacional", PI=FALSE)+ 
+  autolayer(rwf(cerveza2,h=11, drift=T), series="deriva", PI=FALSE )+ 
+  ggtitle("pronostico produccion cerveza")+ xlab("año")+ ylab("miles de litros")+ guides(colour= guide_legend(title="pronostico"))
+
+#pi=false mete a las 4 graficas en una sola
+home<-read.csv("file:///C:/Users/lusal/Documents/¡¡ACTUARIA!!/8° SEMESTRE/SERIES DE TIEMPO/Datos históricos HOMEX.csv")
+home
+homets<-ts(home, start = 1,260)
+homets
+plot(homets)
+ho <- window(homets, start = 1, end= c(250 ,2))
+autoplot(ho) + 
+  autolayer(meanf (ho, h=11), series="media", PI=FALSE)+ 
+  autolayer(naive(ho,h=11),series="ingenuo", PI=FALSE)+ 
+  autolayer(snaive(ho, h=11), series="ingenuo estacional", PI=FALSE)+ 
+  autolayer(rwf(ho,h=11, drift=T), series="deriva", PI=FALSE )+ 
+  ggtitle("pronostico produccion cerveza")+ xlab("año")+ 
+  ylab("miles de litros")+ guides(colour= guide_legend(title="pronostico"))
