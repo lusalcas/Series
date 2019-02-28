@@ -1,0 +1,19 @@
+flor1= "rosa"
+flor2= "tulipan"
+flor3= "gardenias"
+flor4= "margaritas"
+
+num1= 500
+num2= 300
+num3= 1000
+num4=600
+
+print(flor1, flor2, flor3, flor4)
+print(num1, num2, num3, num4)
+import panda as pd
+d={'nombres': [flor1, flor2, flor3, flor4],'numero':[num1,num2,num3,num4]}
+df=pd.DataFrame(data=d)
+
+#ejercicio 
+ejer=panda.read_csv(C:/Users/lusal/Documents/¡¡ACTUARIA!!/8° SEMESTRE/SERIES DE TIEMPO/CORREOS.csv)
+print(ejer)
