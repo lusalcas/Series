@@ -1,0 +1,29 @@
+# si no son autocorrelacionados implica que tenga ruido blanco
+#la serie de tiempo se puede diviir en dos partes:
+#datos de entrenamiento y datos de prueba
+#datos de entrenamiento son los priemros datos
+#lo recomendable a elegir para un pronostico de tiempo va a ser un 20% en la ultima parte
+#otro de los metodos para usar regresion simple es usar SES
+#el SES da mayor peso /pondera a los ultimos datos 
+#
+pib<- read.csv("file:///C:/Users/ALUMNO-D14/Documents/R/PIB.csv")
+pib
+pibts<-ts(pib,start = 1961, end=2017, frequency = 1)
+autoplot(pibts)
+mod1<- ses(pibts, alpha=.1, initial = "simple", h=8)# suavizado exponencial simple
+mod2<- ses(pibts, alpha=.3, initial = "simple", h=8)
+mod3<- ses(pibts, alpha=.9, h=8)
+plot(mod1, ylab = "PIB",
+     xlab = "AÑO", main = "PIB", type = "o")
+lines(fitted(mod1), col="brown", type="o")
+lines(fitted(mod2), col="red", type="o")
+lines(fitted(mod3), col="green", type="o")
+legend ("topleft", lty = 1, col = c(1, "blue", "red", "green"),
+       c("data",expression (alpha==0.1),expression (alpha==0.3),
+        expression (alpha==0.9)),pch=1)
+#plotmod1 va a graficar la serie de tiempom originl
+#fitted=valores ajustados
+#toprigth =arriba derecho, 
+#entre mas cercano a 1, el suavisado es mas agresivo
+#nos quedamos con el .9 por que nos acercamos a nuestros datos reales
+#
