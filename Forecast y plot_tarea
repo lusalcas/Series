@@ -1,0 +1,23 @@
+data()
+install.packages("ggplot2") 
+require(ggplot2) 
+install.packages("forecast") 
+require(forecast) 
+install.packages("fpp2") 
+require(fpp2)
+
+auscafe
+ausco <- window(auscafe, start = 1990, end=c(2006 ,2))
+plot(ausco)
+autoplot(ausco ) + 
+  autolayer(meanf (ausco , h=20), series="MEDIA", PI=FALSE)+ 
+  autolayer(naive(ausco ,h=20),series="INGENUO", PI=FALSE)+ 
+  autolayer(snaive(ausco , h=20), series="INGENUO ESTACIONAL", PI=FALSE)+ 
+  autolayer(rwf(ausco ,h=20, drift=T), series="DERIVA", PI=FALSE )+ 
+  ggtitle("VENTAS MENSUALES EN COMIDA EN AUS")+ xlab("AÑO")+ ylab("PORCENTAJE EN VENTAS")+
+  guides(colour= guide_legend(title="PRONOSTICO"))
+#PODEMOS OBSERVAR QUE EN EL AÑO 1990 HASTA 2008 TIENE UNA TENDENCIA ASCENDENTE PERO 
+#YA NO TENEMOS MAS INFORMACION DESPUES DE ESE PERIODO
+#HACIENDO UN ANALISIS PARA PRONOSTICAR SUS POSIBLES VENTAS DE AUSTRALIA
+#ELIGIREMOS AL PRONOSTICO DEL INGENUO ESTACIONAL, YA QUE ES EL QUE MÁS
+#SE ACERCA A ALGO REAL.
