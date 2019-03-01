@@ -1,0 +1,24 @@
+#los residuos es al serie de tiempo y los errores son del pronostico
+# el que mas se usa es el RMSE
+require(fpp2)
+beer2<-window(ausbeer,start=1992, end=c(2007,4))
+beerfit1<- meanf(beer2,h=10)
+beerfit2<- rwf(beer2, h=10)
+beerfit3 <- snaive(beer2, h=10)
+autoplot(window(ausbeer,start=1992))+
+  autolayer( beerfit1, series="media", PI= FALSE)+
+  autolayer( beerfit2, series="ingenuo", PI= FALSE)+
+  autolayer( beerfit3, series="ingenuo estacional", PI= FALSE)
+
+#falta descipcion de foto
+  
+#ingenuo estacional es el que da los errores mas pequeños
+# errores de los pronosticos es donde empieza lo verde
+
+beer3<- window(ausbeer, start=2008)# datos de prueba es 2008 antes del 2008 son los residuales
+accuracy(beerfit1,beer3)#beerfit1 es con el ajuste de la media
+accuracy(beerfit2,beer3)
+accuracy(beerfit3,beer3)
+#con accuracy es para calcular los errores
+# el mejor pronostico tanto grafico como con accuracy es el del ingenuo estacional
+#dado todo el analisis que se realizo, llegamos a la conclusion de que vamos a usar el ingenuo estacional
