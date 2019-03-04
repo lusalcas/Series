@@ -1,0 +1,70 @@
+####SUNSPOTS####
+sunspots
+help("sunspots")
+autoplot(sunspots)
+        #DECOMPOSE
+sundes <- decompose(sunspots)
+autoplot(sundes)
+        # PRONOSTICOS SIMPLES
+SUNCO<- window(sunspots,start =1749, end = 1936)
+autoplot(SUNCO) + 
+  autolayer(meanf (SUNCO , h=100), series="MEDIA", PI=FALSE)+ 
+  autolayer(naive(SUNCO ,h=100),series="INGENUO", PI=FALSE)+ 
+  autolayer(snaive(SUNCO , h=100), series="INGENUO ESTACIONAL", PI=FALSE)+ 
+  autolayer(rwf(SUNCO ,h=100, drift=T), series="DERIVA", PI=FALSE )+ 
+  ggtitle("NUMERO MENSUAL DE MANCHAS SOLARES")+ xlab("AÑO")+ ylab("SUNSPOTS")+
+  guides(colour= guide_legend(title="PRONOSTICO"))
+
+#SES
+#ERRORES DE PRONOSTICO
+
+####USPOP
+uspop
+help("uspop")
+autoplot(uspop)
+length(uspop)
+# PRONOSTICOS SIMPLES
+USCO<- window(uspop, start = 1790, end = 1900) 
+autoplot(USCO) + 
+  autolayer(meanf (USCO , h=10), series="MEDIA", PI=FALSE)+ 
+  autolayer(naive(USCO ,h=10),series="INGENUO", PI=FALSE)+ 
+  autolayer(snaive(USCO , h=10), series="INGENUO ESTACIONAL", PI=FALSE)+ 
+  autolayer(rwf(USCO ,h=10, drift=T), series="DERIVA", PI=FALSE )+ 
+  ggtitle("NUMERO MENSUAL DE MANCHAS SOLARES")+ xlab("AÑO")+ 
+  ylab("SUNSPOTS")+
+  guides(colour= guide_legend(title="PRONOSTICO"))
+
+#SES
+#ERRORES DE PRONOSTICO
+
+
+####FACEBOOK
+fb<- read.csv("file:///C:/Users/ALUMNO-D14/Documents/R-MGSC/FB.csv")
+fb
+fbts<- ts(fb$Cierre, start = 2018, end=2019, 270)
+fbts
+autoplot(fbts)
+# PRONOSTICOS SIMPLES
+fbco<- window( fbts, start=1, end= c(216,2) )
+
+SUNCO<- window(sunspots,start =1749, end = C(1936,2))
+autoplot(SUNCO) + 
+  autolayer(meanf (SUNCO , h=100), series="MEDIA", PI=FALSE)+ 
+  autolayer(naive(SUNCO ,h=100),series="INGENUO", PI=FALSE)+ 
+  autolayer(snaive(SUNCO , h=100), series="INGENUO ESTACIONAL", PI=FALSE)+ 
+  autolayer(rwf(SUNCO ,h=100, drift=T), series="DERIVA", PI=FALSE )+ 
+  ggtitle("NUMERO MENSUAL DE MANCHAS SOLARES")+ xlab("AÑO")+ ylab("SUNSPOTS")+
+  guides(colour= guide_legend(title="PRONOSTICO"))
+#SES
+#ERRORES DE PRONOSTICO
+
+
+ausco <- window(auscafe, start = 1990, end=c(2006 ,2))
+plot(ausco)
+autoplot(ausco ) + 
+  autolayer(meanf (ausco , h=20), series="MEDIA", PI=FALSE)+ 
+  autolayer(naive(ausco ,h=20),series="INGENUO", PI=FALSE)+ 
+  autolayer(snaive(ausco , h=20), series="INGENUO ESTACIONAL", PI=FALSE)+ 
+  autolayer(rwf(ausco ,h=20, drift=T), series="DERIVA", PI=FALSE )+ 
+  ggtitle("VENTAS MENSUALES EN COMIDA EN AUS")+ xlab("AÑO")+ ylab("PORCENTAJE EN VENTAS")+
+  guides(colour= guide_legend(title="PRONOSTICO"))
