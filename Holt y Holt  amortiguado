@@ -1,0 +1,86 @@
+require(forecast)
+require(ggplot2)
+require(fpp2)
+a1<- window(ausair, start= 1990)
+prono <- holt(a1, h=5)
+autoplot(prono)#metodo de tendencia a la alza, metodo holt se esta respetando, respeta la tendencia
+#cada una de las ecs tiene diferentes parametros
+
+
+#holt con tendenia al infinito, no es tan preciso
+
+#metodos de tendencia amortiguada
+#pronos por metodo holt muestran tendencia constante indefinidamente en el futuro.,
+#la tendencia empirica dicen que estos resuktados tienden a sobre-pronosticar
+#especialmente para horizontes de pronosticos mas largos
+#gardner y Mckenzie introdujeron parametro que "amortigua" la tendencia a una linea plana en el futuro.
+#metodos con tendencia amortiguadora son muy exitosos, metodos individuales mas populares cuando
+#se requieren pronosticar automaticamente a muchas series
+#metodo incluye parametro de atenuacion con phi entre 0 y 1
+
+# se recomiendo phi cercano a uno, entre mas cercano a uno es menos amortiguado
+
+prono1<- holt(a1, h=15)
+prono2<- holt(a1, damped = TRUE, phi=.9, h=15)
+prono3<- ses(a1, alpha=.9, initial = "simple", h=15)
+autoplot(a1)+
+  autolayer(prono1, series="holt", PI=FALSE)+
+  autolayer(prono2, series = "Amortiguado Holt", PI=FALSE)+
+  autolayer(prono3, series = "SES", PI=FALSE)+
+  
+  ggtitle("pronosticos")+ xlab("año")+
+  ylab("pasajeros")
+guides(colour=guide_legend(title = "prono"))
+#si se tiene que hacer un pronostico a corto plazo se escoge el Holt, tendencia lineal
+#amortiguado poco a cpoco se va  a un horizonte mas orientado 
+#cuando phi es 1, prono 1 es igual a prono2
+# suavizado exponencial simple
+help("tsCV")#sirve para que nos regrese los errores de pronostico
+
+e1<- tsCV(a1, ses, h=1)
+e2<- tsCV(a1, holt, h=1)
+e3<- tsCV(a1, holt, damped=TRUE, h=1)
+  #encontar el mae, mse, mape, es otra forma de encontrar los errores
+
+#se espera que los valores sean mas cercanos a cero
+mean(e1^2, na.rm = TRUE)
+mean(e2^2, na.rm = TRUE)
+mean(e3^2, na.rm = TRUE)
+#para el metodo ses es con mean
+#nos quedamos con el holt, es el mas cercano a cero
+mean(abs(e1), na.rm = TRUE)
+mean(abs(e2), na.rm = TRUE)
+mean(abs(e3), na.rm = TRUE)
+#abs= media del valor absoluto del error 
+
+#mismo ejercicio con PIBMEXICo
+pibmex<- read.csv("file:///C:/Users/ALUMNO-D14/Documents/R-MGSC/pibmex.csv")
+pibmexts<- ts(pibmex$PIB, start = 1980, end=2017, frequency = 1)
+pronopib <- holt(pibmexts, h=5)
+autoplot(pronopib)
+
+prono1pib<- holt(pibmexts, h=15)
+prono2pib<- holt(pibmexts, damped = TRUE, phi=.9, h=15)
+prono3pib<- ses(pibmexts, alpha=.9, initial = "simple", h=15)
+autoplot(pibmexts)+
+  autolayer(prono1pib, series="holt", PI=FALSE)+
+  autolayer(prono2pib, series = "Amortiguado Holt", PI=FALSE)+
+  autolayer(prono3pib, series = "SES", PI=FALSE)+
+  ggtitle("pronosticos")+ xlab("año")+
+  ylab("porcentaje")
+guides(colour=guide_legend(title = "prono"))
+
+e1p<- tsCV(pibmexts, ses, h=1)
+e2p<- tsCV(pibmexts, holt, h=1)
+e3p<- tsCV(pibmexts, holt, damped=TRUE, h=1)
+
+
+#se espera que los valores sean mas cercanos a cero
+mean(e1p^2, na.rm = TRUE)
+mean(e2p^2, na.rm = TRUE)
+mean(e3p^2, na.rm = TRUE)
+#para el metodo ses es con mean
+#nos quedamos con el holt, es el mas cercano a cero
+mean(abs(e1p), na.rm = TRUE)
+mean(abs(e2p), na.rm = TRUE)
+mean(abs(e3p), na.rm = TRUE)
