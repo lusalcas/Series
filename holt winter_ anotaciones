@@ -1,0 +1,9 @@
+#holt winter es para series estacionales
+#aditivo es cuando hay variaciones estacionale a lo largo del tiempo
+#multimlicativo hay mas cambios en la estacionalidad
+#gama mueve el pronostico en la parte estacional
+#beta tendenia
+#alfa suavizado
+#ado<- hw(serie, seasonal="additive")
+#holt tendencia solo sigue esa tendencia
+#holt amortiuado te aortigua la tendencia con una curvita
