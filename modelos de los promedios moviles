@@ -1,0 +1,23 @@
+#el examen viene hasta los holt
+#et se define como ruido blanco
+#normalmente se restringen los datos autorregresivos a datos estacionarios
+
+#los promedio moviles es un promedio a traves del tiempo
+
+#MODELOS DE PROMEDIOS MOVILES
+#los modelos de los promedios moviles se utilizan como un promedio movil usando los errores de los pronosticos
+#la ecuacion se plantea
+
+#yt=c+(error)sub(t)+teta sub1 error t-1+ ... + teta subq error subt-1
+#donde esubt es ruido blanco
+#para estos modelos el orden se define como MA(q) es decir un modelo de promeio moviles de orden q 
+# los valores para cada ysubt pueden ser vistos como un pormedio movil de los errores de ppronosticos pasados
+#los MA son utilizados para pronosticar valores futuros
+#supongamos unaserie cpn MA(1) y MA(2)
+
+#entonces 
+#MA(1)=20+Errorsubt +.8errorsubt-1
+#Ma(2)= 16+Errorsubt+.3errorsubt-1+.8errorsubt-2
+#en los dos casos Errorsubt se distribuye normal con media cero y varianza constante
+
+
