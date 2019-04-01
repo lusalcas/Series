@@ -1,0 +1,43 @@
+#modelo completo se puede poner en y'
+#en la ec. se agrega la ecuacicon de los modelos de los promedios moviles
+#el autoregresivo es para ver que tan relacionados estan los datos con sus datos anteriores.
+#promedios moviles estan en los errores de los rezagos de los datos anteriores
+#el modelo arima junta los datos
+#el integrado debe de ver con la diferenciacion
+# p es que tantos valores hacia atras son suficientes para hacer un buen pronostico
+#las diferenciaciones (d) es para hacer una serie estacionaria y que sea normal, cuando tienes una serie estacionaria on es necesaria la diferenciacion ni coxbox
+#en las arima se requiere que la serie sea estacionaria
+#estacionaria varianza pequeña y media cero, permite hacer un mejor pronostico
+#si es estacionaria d es igual a 1 cuando se palica la difereniacion; si d=0 es estacionaria
+#los ejemplos que se veran elijen los mejores p,d,q para el modelo
+#include es cuantos periodos queremos que incluyan en nuestra grafica
+#c es el intercepto 
+#cuando tenemos mas combinaciones no es recomendable hacer pronosticos a largoa plazo
+#
+#
+
+require(fpp2)
+autoplot(ausbeer)
+modar<- auto.arima(ausbeer,seasonal = FALSE)
+#como es no estacional es False
+modar
+#aicc y dems se puede escoger cual es el mejor
+#3 autoregresivos y 2 promedios moviles
+#pasando los resultados (3,2,2) con base a la ec.
+#modar=yt 
+#yt = c +(-0.9569)(yt-1)+(-0.9872)(yt-2)+(-0.9247)(yt-3)+(-1.0425)(et-1)+0.1416(et-2)
+#c=(media)*(1-ar(1))
+
+c=mean(ausbeer)*(1+0.9569)
+c
+modar %>%  forecast(h=100) %>%  autoplot(include =800)
+# los 80 son los datos
+modar1<- auto.arima(ausbeer)
+modar1 %>%  forecast(h=10) %>%  autoplot(include =80)
+
+AirPassengers
+autoplot(AirPassengers)
+airari<- auto.arima(AirPassengers, seasonal = FALSE)
+airari
+c1=mean(AirPassengers)*(1-.2243)
+c1
