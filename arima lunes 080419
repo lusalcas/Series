@@ -1,0 +1,100 @@
+install.packages("installr", dependencies = TRUE)
+library(installr)
+updateR()
+#METODOLOGIA DE PASOS PARA ARIMA
+install.packages("tseries")
+require (foreign)
+require (forecast)
+require (fpp2)
+require(fpp)
+require(tseries)
+version
+bim<-read.csv("file:///C:/Users/ALUMNO-D14/Documents/R-MGSC/BIMBO.csv")
+bimbo<-ts(bim [,2], frequency = 254,start = 2018)
+#revizar si las serie es estacionaria y con el adf.test necesitamos que el p-value sea menor a .05
+adf.test(bimbo)
+#data:  bimbo
+#Dickey-Fuller = -2.3696, Lag order = 6, p-value = 0.4202
+#entonces no pasa la prueba y la serie NO es estacionaria
+#entonces hago diferenciacion para hacerla estacionaria
+dbimts<-diff(bimbo)
+adf.test(dbimts)
+#se obtienen siguientes valores
+#Dickey-Fuller = -5.5394, Lag order = 6, p-value = 0.01
+#alternative hypothesis: stationary
+#entonces por el p-value vemos que ya se hizo estacionaria y sabemos que d=1
+#PASO 3: aplicamos los correlogramas
+par(mfrow=c(1,2))
+acf(dbimts)
+pacf(dbimts)
+#el par es para mostrar las dos graficas juntas.... con el acf y pacf intuimos valores de 
+# p y q y haces modelos propuestos
+# PROPUESTA DEL MODELO
+mod1<-Arima(dbimts, order = c(1,1,0))
+mod1
+mod2<-Arima(dbimts, order = c(2,1,0))
+mod2
+mod3<-Arima(dbimts, order = c(3,1,0))
+mod3
+mod4<-Arima(dbimts, order = c(4,1,0))
+mod4
+mod1
+#AIC=637.05   AICc=637.1   BIC=644.11
+mod2
+#AIC=610.71   AICc=610.81   BIC=621.3
+mod3
+#AIC=587.01   AICc=587.17   BIC=601.13
+mod4
+#AIC=560.1   AICc=560.34   BIC=577.75
+
+#si lo comparamos con el autoarima
+mod<-auto.arima(bimbo, seasonal = FALSE)
+mod
+#Series: bimbo 
+#ARIMA(0,1,1) 
+#Coefficients:
+#sigma^2 estimated as 0.4294:  log likelihood=-251.59
+#AIC=507.17   AICc=507.22   BIC=514.24
+
+
+#autoregresivos se utilizan la funcion pacf()
+par(mfrow=c(1,2))
+acf(dbimts)
+#autoregresivos se utiliza la funcion pacf()
+pacf(dbimts)
+#una vez que se encuentra la forma del arima, en este caso,
+#arima (0,1,q)
+#para encontrar este valor se proponen 4 valores de q
+
+mod1<- Arima(bimbo, order = c(0,1,1))
+mod2<- Arima(bimbo, order = c(0,1,2))
+mod3<- Arima(bimbo, order = c(0,1,3))
+mod4<- Arima(bimbo, order = c(0,1,4))
+# con base al aicc mejor se elige el modelo 1
+# el que tenga menor valor de acc es el mejor modelo
+#promedios moviles=ma1 y ma2 ar==autoregresivo
+#entre estos dos modelos habria que revisar elvalor de aicc y el menor valor
+#de aicc seria el mejor modelo con el criterio AIKAIKE
+#ahora hay que verificar si los residuale son ruido, para eso se propone utilizar
+#la prueba de ljung-box y verificar que el p-value sea mayr a .05 lo que indica
+#que los residuales de la serie de tiepo son ruido blanco
+
+
+
+
+
+
+
+
+
+plot(sunspots)
+adf.test(sunspots)
+#tenemos la serie que ya es estacionarioa por lo tanto no se aplica diferenciacion
+mod1<- Arima(sunspots, order = c(1,0,0))
+mod2<- Arima(sunspots, order = c(2,0,0))
+mod3<- Arima(sunspots, order = c(2,1,1))
+mod4<- Arima(sunspots, order = c(4,0,0))
+mod4
+
+modres<- residuals(mod1)
+Box.test(modres, lag=12, type="Ljung-Box")
